@@ -48,6 +48,7 @@ public:
     void GenerateSavedGame();
 private:
 	fstream myFile;
+    fstream myGameFile;
     ofstream myOutFile;
     ofstream myGameOutFile;
 	string line;

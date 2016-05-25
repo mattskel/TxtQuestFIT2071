@@ -16,128 +16,11 @@ Game::Game() {}
 Game::~Game() {}
 
 void Game::RunGame() {
-//    InitialiseGame();
-//    round = 0;
-//    do {
-//        // Generate a random number
-//        // This random number will determine what event or attack occurs
-//        myRandom = rand() % 10;
-//        
-//        if (myRandom >= 5) {
-//            
-//            // Fight event
-//            cout << "You just got into a fight. I hope you can handle it!" << endl;
-//            
-//            // Create a vector of pointers to Character objects
-//            vector<Character*> attackVector;
-//            
-//            // Add the player to the vector
-//            attackVector.push_back(&player);
-//            
-//            // Create multiple enemies and add them to the vector
-//            // The number of enemies is dependent on the round number
-//            // The higher the round, the more enemies
-//            for (int i = 0; i < round + 1; i++) {
-//                // A "BadGuy" or a "BadWizard" is randomly added to the enemy vector
-//                // More likely a "BadGuy" as they are easier to fight
-//                myRandom = rand() % (round + 1);
-//                // As the round increases, the probability of getting a BadWizard becomes higher
-//                // Thus making it harder as the rounds increase
-//                if (myRandom <= 5) {
-//                    attackVector.push_back(new BadGuy());
-//                }
-//                else {
-//                    attackVector.push_back(new BadWizard(round));
-//                }
-//            }
-//            
-//            // Now we want the elements in the vector to fight each other
-//            // The idea is they keep fighting until there is only one left
-//            
-//            while (attackVector.size() > 1) {
-//                
-//                // Everyone in the vector gets to make an attack
-//                for (int i = 0; i < attackVector.size(); i++) {
-//                    // You can't attack if you are already dead
-//                    if (attackVector[i]->GetHealth() > 0) {
-//                        attackVector[i]->Attack(attackVector);
-//                    }
-//                }
-//                
-//                // We have to remove any of the dead from the vector
-//                for (int i = 0; i < attackVector.size(); i++) {
-//                    if (attackVector[i]->GetHealth() <= 0) {
-//                        // First delete the object from memory
-//                        // Don't want to delete the player object,  only the enemy objects
-//                        if (i != 0) {
-//                            delete attackVector[i];
-//                        }
-//                        // Then delete the reference from the vector
-//                        attackVector.erase(attackVector.begin() + i);
-//                    }
-//                }
-//            }
-//            // After the while loop,  there is only one character left in the fight
-//            // The players health will be automatically updated
-//            
-//            // If the player survives the fight he will be rewarded with more health, magic and strength
-//            if (player.GetHealth() > 0) {
-//                cout << "You won the fight!" << endl;
-//                player.SetHealth(player.GetHealth() + round*5);
-//                player.SetStrength(player.GetStrength() + round);
-//                player.SetMagic(player.GetMagic() + round);
-//            }
-//            
-//        }
-//        else {
-//            
-//            // Standard event from event array
-//            // An event will be selected using the previously generated random number
-//            
-//            string description = eventArray[myRandom].getDescription();
-//            int healthMod = eventArray[myRandom].getHealthMod();
-//            
-//            cout << description << endl;
-//            cout << "Your health will be modified " << healthMod << endl;
-//            int newHealth = player.GetHealth() + healthMod;
-//            player.SetHealth(newHealth);
-//            
-//        }
-//        
-//        // Only give the player the option to play again if they have enough health
-//        // The following if condition checks the player has enough health to keep playing
-//        if (player.GetHealth() > 0) {
-//            cout << "Your health is " << player.GetHealth() << endl;
-//            cout << "Do you want to continue playing? (y/n) " << endl;
-//            cin >> playerChoice;
-//        }
-//        
-//        // After every round the round increases
-//        round++;
-//        
-//    } while (playerChoice == 'y' && player.GetHealth() > 0);
-
 }
 
 void Game::GameLoop() {
     
-//    round = 1;
-    
     do {
-        
-//        GenerateNewGameMap();
-        
-//        GenerateVisualMap();
-//        ResetRoomMap();
-//        GenerateRoomMap();
-//        StartPlayerPosition();
-//        InitRoomEvents();
-//        GenerateEnemyVector();
-//        StartEnemyPosition();
-//        
-////        GenerateFogOfWar();
-//        UpdateVisualMap();
-//        PrintVisualMap();
         
         do {
             
@@ -189,8 +72,10 @@ void Game::InitialiseGame() {
 		player = LoadExistingPlayer();
         // This will need to be reomved after we can load the maps
         // Have to remember to set round = 1;
-        round = 1;
-        GenerateNewGameMap();
+        GenerateSavedGame();
+        StartPlayerPosition();
+        UpdateVisualMapWithoutFog();
+        PrintVisualMap();
 	}
 	else {
         round = 1;
@@ -594,6 +479,7 @@ void Game::StartEnemyPosition() {
 void Game::UpdateVisualMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
+            
             if (roomMap[i][j].GetEvent() == 3 && roomMap[i][j].GetPlayer() == NULL) {
                 visualMap[(2 * i + 1)][(2 * j + 1)] = 'H';
             }
@@ -702,6 +588,35 @@ void Game::UpdateVisualMapWithoutFog() {
             else {
                 visualMap[(2 * i + 1)][(2 * j + 1)] = ' ';
             }
+            
+            if (roomMap[i][j].GetTopRoom() == NULL) {
+                visualMap[(2 * i + 1) - 1][(2 * j + 1)] = '-';
+            }
+            else {
+                visualMap[(2 * i + 1) - 1][(2 * j + 1)] = ' ';
+            }
+            if (roomMap[i][j].GetRightRoom() == NULL) {
+                visualMap[(2 * i + 1)][(2 * j + 1) + 1] = '|';
+            }
+            else {
+                visualMap[(2 * i + 1)][(2 * j + 1) + 1] = ' ';
+            }
+            if (roomMap[i][j].GetBottomRoom() == NULL) {
+                visualMap[(2 * i + 1) + 1][(2 * j + 1)] = '-';
+            }
+            else {
+                visualMap[(2 * i + 1) + 1][(2 * j + 1)] = ' ';
+            }
+            if (roomMap[i][j].GetLeftRoom() == NULL) {
+                visualMap[(2 * i + 1)][(2 * j + 1) - 1] = '|';
+            }
+            else {
+                visualMap[(2 * i + 1)][(2 * j + 1) - 1] = ' ';
+            }
+            visualMap[(2 * i + 1) - 1][(2 * j + 1) - 1] = '+';
+            visualMap[(2 * i + 1) - 1][(2 * j + 1) + 1] = '+';
+            visualMap[(2 * i + 1) + 1][(2 * j + 1) + 1] = '+';
+            visualMap[(2 * i + 1) + 1][(2 * j + 1) - 1] = '+';
         }
     }
 }
@@ -806,5 +721,61 @@ void Game::SaveMap() {
 }
 
 void Game::GenerateSavedGame() {
-    cout<<"HERE"<<endl;
+    
+    myGameFile.open("/Users/matthewskelley/University/FIT2071/Assignment03/Assignment03/GameSave.txt");
+    
+    int numberOfEnemies;
+    
+    myGameFile >> round;
+    myGameFile >> numberOfEnemies;
+    
+    for (int i = 0; i < numberOfEnemies; i++) {
+        int type, healthIn, strenghtIn, magicIn;
+        myGameFile >> type >> healthIn >> strenghtIn >> magicIn;
+        cout<<type<<" "<<healthIn<<" "<<strenghtIn<<" "<<magicIn<<endl;
+        
+        if (type == 0) {
+            enemyVector.push_back(new BadGuy());
+        }
+        else {
+            enemyVector.push_back(new BadWizard(round));
+        }
+        enemyVector[enemyVector.size() - 1]->SetHealth(healthIn);
+        enemyVector[enemyVector.size() - 1]->SetStrength(strenghtIn);
+        enemyVector[enemyVector.size() - 1]->SetMagic(magicIn);
+    }
+    
+    
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            int topRoom, rightRoom, bottomRoom, leftRoom, enemyPos, event, visited;
+            myGameFile >> topRoom >> rightRoom >> bottomRoom >> leftRoom >> enemyPos >> event >> visited;
+            if (topRoom == 1) {
+                roomMap[i][j].SetTopRoom(& roomMap[i - 1][j]);
+            }
+            if (rightRoom == 1) {
+                roomMap[i][j].SetRightRoom(& roomMap[i][j + 1]);
+            }
+            if (bottomRoom == 1) {
+                roomMap[i][j].SetBottomRoom(& roomMap[i - 1][j]);
+            }
+            if (leftRoom == 1) {
+                roomMap[i][j].SetLeftRoom(& roomMap[i][j - 1]);
+            }
+            
+            if (enemyPos != -1) {
+                dynamic_cast<Enemy *>(enemyVector[enemyPos])->SetRoom(& roomMap[i][j]);
+                roomMap[i][j].SetRoomEnemy(dynamic_cast<Enemy *>(enemyVector[enemyPos]));
+            }
+            
+            if (event != -1) {
+                roomMap[i][j].SetEvent(event);
+            }
+            if (visited == 1) {
+                roomMap[i][j].visited = true;
+            }
+        }
+    }
+    
+    myGameFile.close();
 }
