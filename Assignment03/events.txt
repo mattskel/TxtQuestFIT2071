@@ -1,0 +1,5 @@
+An enemy Warrior hits you with his weapon!,-25
+An enemy Mage casts an evil spell on you!,-10
+You found a health potion!,50
+An enemy Rogue backstabs you from the shadows!,-20
+You got attacked by a Dragon!,-30

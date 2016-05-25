@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		F760C1001CE7D491000D2BA8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F760C0FF1CE7D491000D2BA8 /* main.cpp */; };
+		F7A252D61CE7D5700097D0DC /* BadGuy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7A252D01CE7D5700097D0DC /* BadGuy.cpp */; };
+		F7A252D71CE7D5700097D0DC /* BadWizard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7A252D21CE7D5700097D0DC /* BadWizard.cpp */; };
+		F7A252D81CE7D5700097D0DC /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7A252D41CE7D5700097D0DC /* Character.cpp */; };
+		F7E936CE1CEA7BC400E588CB /* Room.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7E936CC1CEA7BC400E588CB /* Room.cpp */; };
+		F7EF33B21CE7D67D00C7867C /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7EF33AA1CE7D67D00C7867C /* Enemy.cpp */; };
+		F7EF33B31CE7D67D00C7867C /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7EF33AC1CE7D67D00C7867C /* Event.cpp */; };
+		F7EF33B41CE7D67D00C7867C /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7EF33AF1CE7D67D00C7867C /* Game.cpp */; };
+		F7EF33B51CE7D67D00C7867C /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7EF33B11CE7D67D00C7867C /* Player.cpp */; };
+		F7EF33BB1CE7D69000C7867C /* Vocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F7EF33B81CE7D69000C7867C /* Vocation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +34,28 @@
 /* Begin PBXFileReference section */
 		F760C0FC1CE7D491000D2BA8 /* Assignment03 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Assignment03; sourceTree = BUILT_PRODUCTS_DIR; };
 		F760C0FF1CE7D491000D2BA8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F7A252D01CE7D5700097D0DC /* BadGuy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BadGuy.cpp; sourceTree = "<group>"; };
+		F7A252D11CE7D5700097D0DC /* BadGuy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadGuy.h; sourceTree = "<group>"; };
+		F7A252D21CE7D5700097D0DC /* BadWizard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BadWizard.cpp; sourceTree = "<group>"; };
+		F7A252D31CE7D5700097D0DC /* BadWizard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadWizard.h; sourceTree = "<group>"; };
+		F7A252D41CE7D5700097D0DC /* Character.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
+		F7A252D51CE7D5700097D0DC /* Character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Character.h; sourceTree = "<group>"; };
+		F7D8F34D1CF5283200221D68 /* GameSave.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GameSave.txt; sourceTree = "<group>"; };
+		F7E936CC1CEA7BC400E588CB /* Room.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Room.cpp; sourceTree = "<group>"; };
+		F7E936CD1CEA7BC400E588CB /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
+		F7EF33AA1CE7D67D00C7867C /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enemy.cpp; sourceTree = "<group>"; };
+		F7EF33AB1CE7D67D00C7867C /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
+		F7EF33AC1CE7D67D00C7867C /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
+		F7EF33AD1CE7D67D00C7867C /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		F7EF33AE1CE7D67D00C7867C /* events.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = events.txt; sourceTree = "<group>"; };
+		F7EF33AF1CE7D67D00C7867C /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		F7EF33B01CE7D67D00C7867C /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		F7EF33B11CE7D67D00C7867C /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		F7EF33B61CE7D69000C7867C /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		F7EF33B71CE7D69000C7867C /* saves.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = saves.txt; sourceTree = "<group>"; };
+		F7EF33B81CE7D69000C7867C /* Vocation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vocation.cpp; sourceTree = "<group>"; };
+		F7EF33B91CE7D69000C7867C /* Vocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vocation.h; sourceTree = "<group>"; };
+		F7EF33BA1CE7D69000C7867C /* vocations.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vocations.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +88,29 @@
 		F760C0FE1CE7D491000D2BA8 /* Assignment03 */ = {
 			isa = PBXGroup;
 			children = (
+				F7A252D01CE7D5700097D0DC /* BadGuy.cpp */,
+				F7A252D11CE7D5700097D0DC /* BadGuy.h */,
+				F7A252D21CE7D5700097D0DC /* BadWizard.cpp */,
+				F7A252D31CE7D5700097D0DC /* BadWizard.h */,
+				F7A252D41CE7D5700097D0DC /* Character.cpp */,
+				F7A252D51CE7D5700097D0DC /* Character.h */,
 				F760C0FF1CE7D491000D2BA8 /* main.cpp */,
+				F7EF33AA1CE7D67D00C7867C /* Enemy.cpp */,
+				F7EF33AB1CE7D67D00C7867C /* Enemy.h */,
+				F7EF33AC1CE7D67D00C7867C /* Event.cpp */,
+				F7EF33AD1CE7D67D00C7867C /* Event.h */,
+				F7EF33B11CE7D67D00C7867C /* Player.cpp */,
+				F7EF33B61CE7D69000C7867C /* Player.h */,
+				F7EF33B71CE7D69000C7867C /* saves.txt */,
+				F7EF33B81CE7D69000C7867C /* Vocation.cpp */,
+				F7EF33B91CE7D69000C7867C /* Vocation.h */,
+				F7EF33BA1CE7D69000C7867C /* vocations.txt */,
+				F7EF33AE1CE7D67D00C7867C /* events.txt */,
+				F7EF33AF1CE7D67D00C7867C /* Game.cpp */,
+				F7EF33B01CE7D67D00C7867C /* Game.h */,
+				F7E936CC1CEA7BC400E588CB /* Room.cpp */,
+				F7E936CD1CEA7BC400E588CB /* Room.h */,
+				F7D8F34D1CF5283200221D68 /* GameSave.txt */,
 			);
 			path = Assignment03;
 			sourceTree = "<group>";
@@ -118,7 +171,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7EF33B51CE7D67D00C7867C /* Player.cpp in Sources */,
+				F7EF33B31CE7D67D00C7867C /* Event.cpp in Sources */,
+				F7EF33BB1CE7D69000C7867C /* Vocation.cpp in Sources */,
 				F760C1001CE7D491000D2BA8 /* main.cpp in Sources */,
+				F7E936CE1CEA7BC400E588CB /* Room.cpp in Sources */,
+				F7A252D61CE7D5700097D0DC /* BadGuy.cpp in Sources */,
+				F7EF33B21CE7D67D00C7867C /* Enemy.cpp in Sources */,
+				F7A252D71CE7D5700097D0DC /* BadWizard.cpp in Sources */,
+				F7A252D81CE7D5700097D0DC /* Character.cpp in Sources */,
+				F7EF33B41CE7D67D00C7867C /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +301,7 @@
 				F760C1051CE7D491000D2BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
