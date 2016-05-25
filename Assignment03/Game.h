@@ -45,6 +45,7 @@ public:
     void ResetRoomMap();
     void GenerateNewGameMap();
     void SaveMap();
+    void GenerateSavedGame();
 private:
 	fstream myFile;
     ofstream myOutFile;

@@ -804,3 +804,7 @@ void Game::SaveMap() {
     myOutFile.close();
     
 }
+
+void Game::GenerateSavedGame() {
+    
+}
