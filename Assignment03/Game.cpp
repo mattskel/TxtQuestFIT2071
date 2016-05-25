@@ -806,5 +806,5 @@ void Game::SaveMap() {
 }
 
 void Game::GenerateSavedGame() {
-    
+    cout<<"HERE"<<endl;
 }
