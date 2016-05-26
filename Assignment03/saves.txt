@@ -1,1 +1,1 @@
-matwasere,Mage,400,60,100
+matwasere,Mage,130,60,100

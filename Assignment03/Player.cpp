@@ -15,7 +15,6 @@ Player::Player() {}
 Player::Player(string nameIn, string vocationIn, int healthIn, int strengthIn, int magicIn) : Character(nameIn, vocationIn, healthIn, strengthIn, magicIn) {}
 Player::~Player() {}
 
-// Note to self: Make sure you are prefixing everything with the correct Player::
 void Player::Attack(vector<Character*> attackVector) {
 
 	// Select someone to fight randomly
@@ -34,7 +33,6 @@ void Player::Attack(vector<Character*> attackVector) {
 
 }
 void Player::PlayerMoveRooms(char playerMove) {
-//    characterRoom->SetPlayer(NULL);
     if (playerMove == 'n') {
         characterRoom = characterRoom->GetTopRoom();
     }
@@ -47,5 +45,4 @@ void Player::PlayerMoveRooms(char playerMove) {
     else if (playerMove == 'w') {
         characterRoom = characterRoom->GetLeftRoom();
     }
-//    characterRoom->SetPlayer(this);
 }

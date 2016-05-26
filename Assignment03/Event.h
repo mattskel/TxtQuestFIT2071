@@ -8,7 +8,6 @@ using namespace std;
 class Event {
 public:
     Event();
-//	Event(string descriptionIn, int healthModIn, int eventID);
 	~Event();
 	void setDescription(string descriptionIn);
 	void setHealthMod(int healthModIn);

@@ -10,8 +10,6 @@
 #define ROOM_H
 
 #include "Event.h"
-//#include "Enemy.h"
-//#include "Character.h"
 #include <stdio.h>
 
 class Character;

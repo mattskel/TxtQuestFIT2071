@@ -32,7 +32,6 @@ public:
     void GenerateRoomMap();
     void StartPlayerPosition();
     void GetPlayerMove();
-//    void MovePlayer(char playerMove);
     void MoveEnemies();
     void InitRoomEvents();
     void ExecuteRoom();
@@ -62,7 +61,7 @@ private:
     Room * currentRoom;
     int playerRow;
     int playerCol;
-    char fogOfWarMap[21][21];
+//    char fogOfWarMap[21][21];
     vector<Character*> enemyVector;
     bool cheatMode;
     bool playerQuit;

@@ -12,16 +12,7 @@ Enemy::~Enemy() {
     GetRoom()->SetRoomEnemy(NULL);
 }
 
-// Note to self: Make sure you are prefixing everything with the correct Player::
 void Enemy::Attack(vector<Character*> attackVector) {}
-
-//void Enemy::SetRoom(Room * roomIn) {
-//    enemyRoom = roomIn;
-//}
-//
-//Room * Enemy::GetRoom() {
-//    return enemyRoom;
-//}
 
 void Enemy::EnemyMoveRooms() {
 }

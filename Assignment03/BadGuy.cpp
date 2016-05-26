@@ -1,7 +1,7 @@
 /*
  * BadGuy is an enemy character
- * BadGuy has low health and strenght
- * BadGuy will only affect the players health based on its low strength
+ * BadGuy has low health and strength
+ * BadGuy will ohave little effect on the players health
  */
 
 #include "BadGuy.h"

@@ -10,12 +10,6 @@ Event::Event() {
     eventID = -1;
 }
 
-//Event::Event(string descriptionIn, int healthModIn, int eventIDIn) {
-//	description = descriptionIn;
-//	healthMod = healthModIn;
-//    eventID = eventIDIn;
-//}
-
 Event::~Event() {}
 
 void Event::setDescription(string descriptionIn) {

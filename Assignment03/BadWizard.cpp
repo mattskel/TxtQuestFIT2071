@@ -16,7 +16,6 @@ using namespace std;
 BadWizard::BadWizard(int roundMod) : Enemy("", "", 5*roundMod, 5*roundMod, 10*roundMod) {}
 BadWizard::~BadWizard() {}
 
-// Note to self: Make sure you are prefixing everything with the correct Player::
 void BadWizard::Attack(vector<Character*> attackVector) {
 
 	// Select someone to fight randomly
