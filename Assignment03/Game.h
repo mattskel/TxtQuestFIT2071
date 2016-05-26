@@ -64,6 +64,8 @@ private:
     int playerCol;
     char fogOfWarMap[21][21];
     vector<Character*> enemyVector;
+    bool cheatMode;
+    bool playerQuit;
 };
 
 #endif

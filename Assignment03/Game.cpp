@@ -15,38 +15,57 @@ using namespace std;
 Game::Game() {}
 Game::~Game() {}
 
+/*
+// This could potentially hold the method calls that are currently in main
 void Game::RunGame() {
 }
+ */
 
+// GameLoop()
+// Responsible for running the main game loop
 void Game::GameLoop() {
     
+    // This loop runs while the player still has health and wants to continue playing
     do {
         
-        do {
-            
-            GetPlayerMove();
-            MoveEnemies();
-            UpdateVisualMapWithoutFog();
-//            UpdateVisualMap();
-            PrintVisualMap();
-            ExecuteRoom();
-            
-        } while (enemyVector.size() > 0 && player.GetHealth() > 0);
+        // Initialises the playerQuit bool to false
+        playerQuit = false;
         
-        if (player.GetHealth() > 0) {
+        // Loops while the player wants to keep playing, the player has health and there are still enemies in the maze
+        do {
+            GetPlayerMove();
+            if (!playerQuit) {
+                MoveEnemies();
+                UpdateVisualMap();
+                PrintVisualMap();
+                ExecuteRoom();
+            }
+        } while (!playerQuit && enemyVector.size() > 0 && player.GetHealth() > 0);
+        
+        // Checks if the player killed all the enemies in the maze and survived or just wants to quit
+        // If the player killed all the enemies then the player has the option to quit por continue playing
+        if (enemyVector.size() == 0 && player.GetHealth() > 0) {
             round++;
             player.SetHealth(player.GetHealth() + 50 + round * 10);
             GenerateNewGameMap();
-            cout << "Do you want to continue playing? (y/n) " << endl;
+            cout << "Congrats! You made it to the next level. Do you want to quit? (y/n) " << endl;
             cin >> playerChoice;
         }
-        
-    } while (playerChoice == 'y' && player.GetHealth() > 0);
+        // If the player chose to quit then they are given a chance to continue playing
+        else {
+            cout << "Are you sure you want to quit? (y/n) " << endl;
+            cin >> playerChoice;
+        }
+    } while (playerChoice == 'n' && player.GetHealth() > 0);
     
+    // Executes the EndGame() method
     EndGame();
     
 }
 
+// GenerateNewGameMap()
+// Responsible for generating a new game map
+// This method is called when the player starts a new game or the player starts a new level
 void Game::GenerateNewGameMap() {
     GenerateVisualMap();
     ResetRoomMap();
@@ -55,36 +74,48 @@ void Game::GenerateNewGameMap() {
     InitRoomEvents();
     GenerateEnemyVector();
     StartEnemyPosition();
-    
-//    GenerateFogOfWar();
-    UpdateVisualMap();
-    PrintVisualMap();
 }
 
+// InitialiseGame()
+// Responsible for starting a new game or loading an existing game
 void Game::InitialiseGame() {
-
+    // Asks the player if they want to start a new game or load an existing
 	cout << "Welcome to TxtQuest. Would you like to load an existing player? (y/n) " << endl;
 	cin >> playerChoice;
 
-//	Player player;
-
+    // Load an existing player and game
 	if (playerChoice == 'y') {
 		player = LoadExistingPlayer();
-        // This will need to be reomved after we can load the maps
-        // Have to remember to set round = 1;
         GenerateSavedGame();
-        StartPlayerPosition();
-        UpdateVisualMapWithoutFog();
-        PrintVisualMap();
 	}
+    // Create a new player and new game
 	else {
         round = 1;
 		player = CreateNewPlayer();
         GenerateNewGameMap();
 	}
-    cout << "Welcome " << player.GetName() << endl;
+    
+    // Asks the player if they want to play with the fog of war cheat
+    char playerCheatChoice;
+    cout << "Welcome " << player.GetName() << ", would you like to play with fog of war (y/n)" << endl;
+    cin >> playerCheatChoice;
+    // Generate fog of war
+    if (playerCheatChoice == 'y') {
+        cheatMode= false;
+        GenerateFogOfWar();
+    }
+    else {
+        cheatMode = true;
+    }
+    
+    // Executes the UpdateVisualMap() method
+    UpdateVisualMap();
+    // Executes the PrintVisualMap() method
+    PrintVisualMap();
 }
 
+// SetEventArray()
+// Responsible for uploading the events from a text file and populating eventArray
 void Game::SetEventArray() {
     string event;
     int healthModifier;
@@ -94,7 +125,6 @@ void Game::SetEventArray() {
         stringstream ss(line);
         getline(ss, event, ',');
         ss>>healthModifier;
-//        eventArray[count] = Event(event, healthModifier, count);
         eventArray[count + 1].setDescription(event);
         eventArray[count + 1].setHealthMod(healthModifier);
         eventArray[count + 1].setEventID(count + 1);
@@ -102,6 +132,8 @@ void Game::SetEventArray() {
     }
 }
 
+// CreateNewPlayer()
+// Responsible for creating and returning a new player for the game
 Player Game::CreateNewPlayer() {
 	fstream myFile;
 	string nameIn;
@@ -113,7 +145,7 @@ Player Game::CreateNewPlayer() {
 	int magicIn;
 	char tmp;
 
-	// Get the player name
+	// Get the player name from the user
 	cout << "Enter your name: ";
 	cin >> nameIn;
 
@@ -145,6 +177,9 @@ Player Game::CreateNewPlayer() {
 
 	return player;
 }
+
+// LoadExistingPlayer()
+// Creates and returns the saved player in the saves.txt file
 Player Game::LoadExistingPlayer() {
 
 	fstream myFile;
@@ -168,6 +203,10 @@ Player Game::LoadExistingPlayer() {
 	return player;
 }
 
+// EndGame()
+// Responsible for saving the player and the game if the player has health
+// If the player has no health then a message is displayed notifying the player they are dead
+// Gets called at the end of a gam
 void Game::EndGame() {
     // If the player quits and still has health remaining,  give them the option to save the game
     if (player.GetHealth() > 0) {
@@ -179,6 +218,7 @@ void Game::EndGame() {
             myOutFile.open("/Users/matthewskelley/University/FIT2071/Assignment03/Assignment03/saves.txt");
             myOutFile << player.GetName() << "," << player.GetVocation() << "," << player.GetHealth() << "," << player.GetStrength() << "," << player.GetMagic();
             myOutFile.close();
+            SaveMap();
             cout << "Your game has been saved." << endl;
         }
     }
@@ -186,6 +226,7 @@ void Game::EndGame() {
         cout << "You are dead :(" << endl;
     }
 }
+
 
 void Game::GenerateVisualMap () {
 
@@ -293,7 +334,6 @@ void Game::StartPlayerPosition() {
     
     playerRow = rand() % 10;
     playerCol = rand() % 10;
-//    currentRoom = & roomMap[playerRow][playerCol];
     player.SetRoom(& roomMap[playerRow][playerCol]);
     roomMap[playerRow][playerCol].SetPlayer(& player);
     roomMap[playerRow][playerCol].visited = true;
@@ -303,7 +343,7 @@ void Game::GetPlayerMove() {
     char playerMove;
     bool validMove;
     validMove = false;
-    cout<<"What's your next move (n,s,e,w)?"<<endl;
+    cout<<"What's your next move (n,s,e,w)? Or quit (q)?"<<endl;
     cin>>playerMove;
     while (!validMove) {
         if (playerMove == 'n') {
@@ -326,17 +366,22 @@ void Game::GetPlayerMove() {
                 validMove = true;
             }
         }
+        else if (playerMove == 'q') {
+            playerQuit = true;
+            validMove = true;
+        }
         if (!validMove) {
-            cout<<"Incorrect move, try again. What's your next move (n,s,e,w)?"<<endl;
+            cout<<"Incorrect move, try again. What's your next move (n,s,e,w)? Or quit (q)?"<<endl;
             cin>>playerMove;
         }
     }
-    player.GetRoom()->SetPlayer(NULL);
-    player.PlayerMoveRooms(playerMove);
-    player.GetRoom()->SetPlayer(& player);
-    player.GetRoom()->visited = true;
     
-//    roomMap[i][j].SetRoomEnemy(dynamic_cast<Enemy *>(enemy));
+    if (playerMove != 'q') {
+        player.GetRoom()->SetPlayer(NULL);
+        player.PlayerMoveRooms(playerMove);
+        player.GetRoom()->SetPlayer(& player);
+        player.GetRoom()->visited = true;
+    }
 }
 
 void Game::MoveEnemies() {
@@ -374,25 +419,6 @@ void Game::MoveEnemies() {
         
     }
 }
-
-//void Game::MovePlayer(char playerMove) {
-//    if (playerMove == 'n') {
-//        currentRoom = currentRoom->GetTopRoom();
-//        playerRow--;
-//    }
-//    else if (playerMove == 's') {
-//        currentRoom = currentRoom->GetBottomRoom();
-//        playerRow++;
-//    }
-//    else if (playerMove == 'e') {
-//        currentRoom = currentRoom->GetRightRoom();
-//        playerCol++;
-//    }
-//    else if (playerMove == 'w') {
-//        currentRoom = currentRoom->GetLeftRoom();
-//        playerCol--;
-//    }
-//}
 
 void Game::InitRoomEvents() {
     for (int i = 0; i < 10; i++) {
@@ -440,6 +466,7 @@ void Game::ExecuteRoom() {
 }
 
 void Game::GenerateFogOfWar() {
+    cout<<"HERE"<<endl;
     for (int i = 0; i < 21; i++) {
         for (int j = 0; j < 21; j++) {
             visualMap[i][j] = '*';
@@ -483,7 +510,7 @@ void Game::UpdateVisualMap() {
             if (roomMap[i][j].GetEvent() == 3 && roomMap[i][j].GetPlayer() == NULL) {
                 visualMap[(2 * i + 1)][(2 * j + 1)] = 'H';
             }
-            if (roomMap[i][j].visited == true){
+            if (cheatMode || roomMap[i][j].visited == true){
                 if (roomMap[i][j].GetTopRoom() == NULL) {
                     visualMap[(2 * i + 1) - 1][(2 * j + 1)] = '-';
                 }
@@ -534,16 +561,14 @@ void Game::Attack(Room * currentRoom) {
     attackVector.push_back(&player);
     attackVector.push_back(currentRoom->GetRoomEnemy());
     
+    // Get the position of an enemy in the enemy vector
     int j = 0;
-    
     while (enemyVector[j] != currentRoom->GetRoomEnemy()) {
         j++;
     }
     
-    
     // Now we want the elements in the vector to fight each other
     // The idea is they keep fighting until there is only one left
-    
     while (attackVector.size() > 1) {
         
         // Everyone in the vector gets to make an attack
@@ -573,53 +598,55 @@ void Game::Attack(Room * currentRoom) {
 // UpdateVisualMapWithoutFog()
 // Updates the map without fog of war
 // Can be used as a cheat to play without fog of war on map
-void Game::UpdateVisualMapWithoutFog() {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            if (roomMap[i][j].GetPlayer() != NULL) {
-                visualMap[(2 * i + 1)][(2 * j + 1)] = 'P';
-            }
-            else if (roomMap[i][j].GetEvent() == 3) {
-                visualMap[(2 * i + 1)][(2 * j + 1)] = 'H';
-            }
-            else if (roomMap[i][j].GetRoomEnemy() != NULL) {
-                visualMap[(2 * i + 1)][(2 * j + 1)] = 'e';
-            }
-            else {
-                visualMap[(2 * i + 1)][(2 * j + 1)] = ' ';
-            }
-            
-            if (roomMap[i][j].GetTopRoom() == NULL) {
-                visualMap[(2 * i + 1) - 1][(2 * j + 1)] = '-';
-            }
-            else {
-                visualMap[(2 * i + 1) - 1][(2 * j + 1)] = ' ';
-            }
-            if (roomMap[i][j].GetRightRoom() == NULL) {
-                visualMap[(2 * i + 1)][(2 * j + 1) + 1] = '|';
-            }
-            else {
-                visualMap[(2 * i + 1)][(2 * j + 1) + 1] = ' ';
-            }
-            if (roomMap[i][j].GetBottomRoom() == NULL) {
-                visualMap[(2 * i + 1) + 1][(2 * j + 1)] = '-';
-            }
-            else {
-                visualMap[(2 * i + 1) + 1][(2 * j + 1)] = ' ';
-            }
-            if (roomMap[i][j].GetLeftRoom() == NULL) {
-                visualMap[(2 * i + 1)][(2 * j + 1) - 1] = '|';
-            }
-            else {
-                visualMap[(2 * i + 1)][(2 * j + 1) - 1] = ' ';
-            }
-            visualMap[(2 * i + 1) - 1][(2 * j + 1) - 1] = '+';
-            visualMap[(2 * i + 1) - 1][(2 * j + 1) + 1] = '+';
-            visualMap[(2 * i + 1) + 1][(2 * j + 1) + 1] = '+';
-            visualMap[(2 * i + 1) + 1][(2 * j + 1) - 1] = '+';
-        }
-    }
-}
+//void Game::UpdateVisualMapWithoutFog() {
+//    for (int i = 0; i < 10; i++) {
+//        for (int j = 0; j < 10; j++) {
+//            if (cheatMode || roomMap[i][j].visited == true) {
+//                if (roomMap[i][j].GetPlayer() != NULL) {
+//                    visualMap[(2 * i + 1)][(2 * j + 1)] = 'P';
+//                }
+//                else if (roomMap[i][j].GetEvent() == 3) {
+//                    visualMap[(2 * i + 1)][(2 * j + 1)] = 'H';
+//                }
+//                else if (roomMap[i][j].GetRoomEnemy() != NULL) {
+//                    visualMap[(2 * i + 1)][(2 * j + 1)] = 'e';
+//                }
+//                else {
+//                    visualMap[(2 * i + 1)][(2 * j + 1)] = ' ';
+//                }
+//                
+//                if (roomMap[i][j].GetTopRoom() == NULL) {
+//                    visualMap[(2 * i + 1) - 1][(2 * j + 1)] = '-';
+//                }
+//                else {
+//                    visualMap[(2 * i + 1) - 1][(2 * j + 1)] = ' ';
+//                }
+//                if (roomMap[i][j].GetRightRoom() == NULL) {
+//                    visualMap[(2 * i + 1)][(2 * j + 1) + 1] = '|';
+//                }
+//                else {
+//                    visualMap[(2 * i + 1)][(2 * j + 1) + 1] = ' ';
+//                }
+//                if (roomMap[i][j].GetBottomRoom() == NULL) {
+//                    visualMap[(2 * i + 1) + 1][(2 * j + 1)] = '-';
+//                }
+//                else {
+//                    visualMap[(2 * i + 1) + 1][(2 * j + 1)] = ' ';
+//                }
+//                if (roomMap[i][j].GetLeftRoom() == NULL) {
+//                    visualMap[(2 * i + 1)][(2 * j + 1) - 1] = '|';
+//                }
+//                else {
+//                    visualMap[(2 * i + 1)][(2 * j + 1) - 1] = ' ';
+//                }
+//                visualMap[(2 * i + 1) - 1][(2 * j + 1) - 1] = '+';
+//                visualMap[(2 * i + 1) - 1][(2 * j + 1) + 1] = '+';
+//                visualMap[(2 * i + 1) + 1][(2 * j + 1) + 1] = '+';
+//                visualMap[(2 * i + 1) + 1][(2 * j + 1) - 1] = '+';
+//            }
+//        }
+//    }
+//}
 
 void Game::SaveMap() {
     
@@ -705,11 +732,14 @@ void Game::SaveMap() {
             roomSaveString += to_string(room->GetEvent()) + " ";
             
             // Set visited
-            if (room->visited) {
+            if (room->GetPlayer() != NULL) {
                 roomSaveString += "1 ";
             }
-            else {
+            else if (room->visited) {
                 roomSaveString += "0 ";
+            }
+            else {
+                roomSaveString += "-1 ";
             }
             
             myGameOutFile << roomSaveString << endl;
@@ -732,7 +762,6 @@ void Game::GenerateSavedGame() {
     for (int i = 0; i < numberOfEnemies; i++) {
         int type, healthIn, strenghtIn, magicIn;
         myGameFile >> type >> healthIn >> strenghtIn >> magicIn;
-        cout<<type<<" "<<healthIn<<" "<<strenghtIn<<" "<<magicIn<<endl;
         
         if (type == 0) {
             enemyVector.push_back(new BadGuy());
@@ -757,7 +786,7 @@ void Game::GenerateSavedGame() {
                 roomMap[i][j].SetRightRoom(& roomMap[i][j + 1]);
             }
             if (bottomRoom == 1) {
-                roomMap[i][j].SetBottomRoom(& roomMap[i - 1][j]);
+                roomMap[i][j].SetBottomRoom(& roomMap[i + 1][j]);
             }
             if (leftRoom == 1) {
                 roomMap[i][j].SetLeftRoom(& roomMap[i][j - 1]);
@@ -772,6 +801,11 @@ void Game::GenerateSavedGame() {
                 roomMap[i][j].SetEvent(event);
             }
             if (visited == 1) {
+                roomMap[i][j].SetPlayer(& player);
+                player.SetRoom(& roomMap[i][j]);
+                roomMap[i][j].visited = true;
+            }
+            else if (visited == 0) {
                 roomMap[i][j].visited = true;
             }
         }

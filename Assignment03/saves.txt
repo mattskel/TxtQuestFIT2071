@@ -1,1 +1,1 @@
-m,Warrior,162,120,0
+matwasere,Mage,400,60,100

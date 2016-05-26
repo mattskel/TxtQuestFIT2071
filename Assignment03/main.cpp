@@ -27,7 +27,7 @@ int main () {
     game.InitialiseGame();
     game.SetEventArray();
     
-    game.SaveMap();
+//    game.SaveMap();
     
 //    game.GenerateNewGameMap();
     
